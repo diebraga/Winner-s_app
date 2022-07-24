@@ -109,7 +109,7 @@ function App() {
           isChoosen={isChoosen}
         />
         <Flex
-          maxH={'70vh'}
+          maxH={'65vh'}
           overflow='auto'
           w='100%'
           direction={'column'}
