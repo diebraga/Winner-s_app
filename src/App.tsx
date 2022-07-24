@@ -31,21 +31,38 @@ function App() {
     setName(event.currentTarget.value);
   };
 
+  function itemExists(name: string) {
+    return itemList.some((item) => {
+      const stringName = item.name.toLowerCase() === name.toLowerCase();
+      return stringName
+    }); 
+  }
+    
   function handleAddNewPerson(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (!name) return
-    setItemList(prev => [...prev, {
-      id: itemList.length,
-      name: name
-    }])
-    toast({
-      position: 'top',
-      title: name + ' created.',
-      status: 'success',
-      duration: 4000,
-      isClosable: true,
-    })
-    setName('')
+    if (itemExists(name)) {
+      setItemList(prev => [...prev, {
+        id: itemList.length,
+        name: name
+      }])
+      toast({
+        position: 'top',
+        title: name + ' created.',
+        status: 'success',
+        duration: 4000,
+        isClosable: true,
+      })
+      setName('')  
+    } else {
+      toast({
+        position: 'top',
+        title: name + ' was already created.',
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      })
+    }
   }
 
   function handleDeletePerson(id: number, name: string) {
