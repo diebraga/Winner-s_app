@@ -135,6 +135,7 @@ function App() {
                   fire()
                   audio.play()
                 }, 1000);
+                audio.pause()
               } else {
                 setIsChoosen(false)
                 setWinnerIndex(undefined)
