@@ -1,3 +1,4 @@
+import { Button } from '@chakra-ui/button'
 import { Box, Flex } from '@chakra-ui/layout'
 import { useToast } from '@chakra-ui/toast'
 import { ChangeEvent, FormEvent, useState } from 'react'
@@ -31,7 +32,19 @@ function App() {
       position: 'top',
       title: name + ' created.',
       status: 'success',
-      duration: 9000,
+      duration: 4000,
+      isClosable: true,
+    })
+    setName('')
+  }
+
+  function handleDeletePerson(id: number, name: string) {
+    setPersonList(personList.filter(person => person.id !== id))
+    toast({
+      position: 'top',
+      title: name + ' has been deleted.',
+      status: 'error',
+      duration: 4000,
       isClosable: true,
     })
   }
@@ -49,13 +62,43 @@ function App() {
           name={name}
           onSubmit={handleAddNewPerson}
         />
-        {personList.map(item => {
-          return (
-            <PersonListItem
-              name={item.name}
-            />
-          )
-        })}
+        <Flex
+          maxH={'60vh'}
+          overflow='auto'
+          w='100%'
+          direction={'column'}
+          alignItems='center'
+          justify={'center'}
+          mt='20px'
+        >
+          {personList.map(item => {
+            return (
+              <PersonListItem
+                name={item.name}
+                onDelete={() => handleDeletePerson(item.id, item.name)}
+                key={item.id}
+              />
+            )
+          })}
+        </Flex>
+        <Flex
+          px='5'
+          w='100%'
+          alignItems={'center'}
+          justify='center'
+        >
+          <Button
+            w='100%'
+            maxW={'739px'}
+            mt='40px'
+            size={['sm', 'md', 'lg']}
+            px='5'
+            disabled={personList.length === 0}
+            colorScheme='facebook'
+          >
+            Select Winner
+          </Button>
+        </Flex>
       </Flex>
     </Box>
   )

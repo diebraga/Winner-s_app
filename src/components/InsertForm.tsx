@@ -1,4 +1,4 @@
-import { Button } from '@chakra-ui/button'
+import { IconButton } from '@chakra-ui/button'
 import { AddIcon } from '@chakra-ui/icons'
 import { Input } from '@chakra-ui/input'
 import { Flex, Text } from '@chakra-ui/layout'
@@ -7,7 +7,7 @@ import { ChangeEvent, FormEvent, FormEventHandler } from 'react'
 interface InsertFormProps {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   name: string
-  onSubmit: (e: FormEvent<HTMLFormElement>) => void 
+  onSubmit: (e: FormEvent<HTMLFormElement>) => void
 }
 
 export function InsertForm({ onChange, name, onSubmit }: InsertFormProps) {
@@ -40,14 +40,17 @@ export function InsertForm({ onChange, name, onSubmit }: InsertFormProps) {
           variant='filled'
           value={name}
           onChange={onChange}
+          colorScheme='facebook'
         />
-        <Button
+        <IconButton
           size={['sm', 'md', 'lg']}
           ml='2'
           type='submit'
-        >
-          <AddIcon />
-        </Button>
+          colorScheme='facebook'
+          disabled={name.length === 0}
+          icon={<AddIcon />}
+          aria-label='add button'
+        />         
       </Flex>
     </Flex>
   )
