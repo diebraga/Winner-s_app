@@ -4,22 +4,28 @@ import { useToast } from '@chakra-ui/toast'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { Header } from './components/Header'
 import { InsertForm } from './components/InsertForm'
-import { PersonListItem } from './components/PersonListItem'
+import { ItemListItem } from './components/ItemListItem'
 import { useLocalStorage } from './utils/useLocalStorage'
+import ReactCanvasConfetti from "react-canvas-confetti";
+import { useTriggerConetti } from './utils/useTriggerConetti'
+import Sound from "./sounds/go.wav"
 
-interface PersonList {
+interface ItemList {
   id: number
   name: string
 }
 
 function App() {
   const [name, setName] = useState<string>('')
-  const [personList, setPersonList] = useLocalStorage<PersonList[]>('people:winner:choice', [])
+  const [itemList, setItemList] = useLocalStorage<ItemList[]>('items:winner:choice', [])
   const [winnerIndex, setWinnerIndex] = useState<number | undefined>(undefined)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isChoosen, setIsChoosen] = useState<boolean>(false)
+  const [audio] = useState(new Audio(Sound));
 
   const toast = useToast()
+
+  const { fire, getInstance } = useTriggerConetti()
 
   function handleGetPersonsName(event: ChangeEvent<HTMLInputElement>) {
     setName(event.currentTarget.value);
@@ -28,8 +34,8 @@ function App() {
   function handleAddNewPerson(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (!name) return
-    setPersonList(prev => [...prev, {
-      id: personList.length,
+    setItemList(prev => [...prev, {
+      id: itemList.length,
       name: name
     }])
     toast({
@@ -43,7 +49,7 @@ function App() {
   }
 
   function handleDeletePerson(id: number, name: string) {
-    setPersonList(personList.filter(person => person.id !== id))
+    setItemList(itemList.filter(person => person.id !== id))
     toast({
       position: 'top',
       title: name + ' has been deleted.',
@@ -60,6 +66,15 @@ function App() {
   function defineIsWinner(index: number) {
     return winnerIndex === index
   }
+
+  const canvasStyles = {
+    position: "fixed",
+    pointerEvents: "none",
+    width: "100%",
+    height: "100%",
+    top: 0,
+    left: 0
+  };
 
   return (
     <Box>
@@ -83,9 +98,9 @@ function App() {
           alignItems='center'
           justify={'center'}
         >
-          {personList.map((item, index) => {
+          {itemList.map((item, index) => {
             return (
-              <PersonListItem
+              <ItemListItem
                 name={item.name}
                 onDelete={() => handleDeletePerson(item.id, item.name)}
                 key={item.id}
@@ -100,14 +115,14 @@ function App() {
           w='100%'
           alignItems={'center'}
           justify='center'
-          mt={personList.length == 0 ? '30px' : ''}
+          mt={itemList.length == 0 ? '30px' : ''}
         >
           <Button
             w='100%'
             maxW={'739px'}
             size={['sm', 'md', 'lg']}
             px='5'
-            disabled={personList.length === 0 && isLoading}
+            disabled={itemList.length === 0 && isLoading}
             colorScheme='facebook'
             isLoading={isLoading}
             onClick={() => {
@@ -115,8 +130,10 @@ function App() {
                 setIsLoading(true)
                 setIsChoosen(true)
                 setTimeout(function () {
-                  setWinnerIndex(getRandomNumberBetween(0, personList.length - 1))
+                  setWinnerIndex(getRandomNumberBetween(0, itemList.length - 1))
                   setIsLoading(false)
+                  fire()
+                  audio.play()
                 }, 1000);
               } else {
                 setIsChoosen(false)
@@ -128,6 +145,11 @@ function App() {
           </Button>
         </Flex>
       </Flex>
+      <ReactCanvasConfetti
+        refConfetti={getInstance}
+        // @ts-ignore
+        style={canvasStyles}
+      />
     </Box>
   )
 }

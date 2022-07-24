@@ -35,7 +35,7 @@ export function InsertForm({ onChange, name, onSubmit }: InsertFormProps) {
         mb={['0', '4', '6']}
         textAlign={'center'}
       >
-        Insert a person
+        Insert an item
       </Text>
       <Flex>
         <Input

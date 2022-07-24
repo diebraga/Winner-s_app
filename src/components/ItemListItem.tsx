@@ -3,14 +3,14 @@ import { CloseIcon } from "@chakra-ui/icons";
 import { Box, Flex, Text } from "@chakra-ui/layout";
 import { useDarkMode } from "../utils/useDarkMode";
 
-interface PersonListItemProps {
+interface ItemListItemProps {
   name: string
   onDelete: () => void
   hasBorder: boolean
   hasWinner: boolean
 }
 
-export function PersonListItem({ name, onDelete, hasBorder, hasWinner }: PersonListItemProps) {
+export function ItemListItem({ name, onDelete, hasBorder, hasWinner }: ItemListItemProps) {
   const { isDarkMode } = useDarkMode()
 
   function defineContainerClassName() {
