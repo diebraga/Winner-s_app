@@ -26,14 +26,14 @@ function App() {
   const toast = useToast()
 
   const { fire, getInstance } = useTriggerConetti()
-
+  
   function handleGetPersonsName(event: ChangeEvent<HTMLInputElement>) {
     setName(event.currentTarget.value);
   };
 
-  function itemExists(name: string) {
+  function itemExists() {
     return itemList.some((item) => {
-      const stringName = item.name.toLowerCase() === name.toLowerCase();
+      const stringName = item.name.toLowerCase() === name.toLowerCase().trim();
       return stringName
     }); 
   }
@@ -41,14 +41,14 @@ function App() {
   function handleAddNewPerson(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (!name) return
-    if (itemExists(name)) {
+    if (!itemExists()) {
       setItemList(prev => [...prev, {
-        id: itemList.length,
-        name: name
+        id: itemList.length + 1,
+        name: name.trim()
       }])
       toast({
         position: 'top',
-        title: name + ' created.',
+        title: name.trim() + ' created.',
         status: 'success',
         duration: 4000,
         isClosable: true,
@@ -57,7 +57,7 @@ function App() {
     } else {
       toast({
         position: 'top',
-        title: name + ' was already created.',
+        title: name.trim() + ' was already created.',
         status: 'error',
         duration: 4000,
         isClosable: true,
@@ -106,6 +106,7 @@ function App() {
           onChange={handleGetPersonsName}
           name={name}
           onSubmit={handleAddNewPerson}
+          isChoosen={isChoosen}
         />
         <Flex
           maxH={'70vh'}
