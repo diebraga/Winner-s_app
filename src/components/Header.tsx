@@ -20,7 +20,7 @@ export function Header() {
         ml='3'
         fontSize={['1.4rem', '1.8rem', '2rem']}
       >
-        Winner's app
+        Winner app
       </Heading>
       <Flex>
         <Button
