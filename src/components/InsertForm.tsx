@@ -1,8 +1,10 @@
 import { IconButton } from '@chakra-ui/button'
+import { useColorMode } from '@chakra-ui/color-mode'
 import { AddIcon } from '@chakra-ui/icons'
 import { Input } from '@chakra-ui/input'
 import { Flex, Text } from '@chakra-ui/layout'
-import { ChangeEvent, FormEvent, FormEventHandler } from 'react'
+import { ChangeEvent, FormEvent } from 'react'
+import { useDarkMode } from '../utils/useDarkMode'
 
 interface InsertFormProps {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
@@ -11,6 +13,8 @@ interface InsertFormProps {
 }
 
 export function InsertForm({ onChange, name, onSubmit }: InsertFormProps) {
+  const { isDarkMode } = useDarkMode()
+
   return (
     <Flex
       as={'form'}
@@ -24,7 +28,7 @@ export function InsertForm({ onChange, name, onSubmit }: InsertFormProps) {
     >
       <Text
         as={'h1'}
-        fontSize={['1.7rem', '2rem', '2.7rem']}
+        fontSize={['1.4rem', '1.8rem', '2rem']}
         fontWeight='bold'
         mt='5'
         py='1'
@@ -38,6 +42,7 @@ export function InsertForm({ onChange, name, onSubmit }: InsertFormProps) {
           w={'100%'}
           size={['sm', 'md', 'lg']}
           variant='filled'
+          focusBorderColor={isDarkMode ? 'blue.100' : 'blue.600'}
           value={name}
           onChange={onChange}
           colorScheme='facebook'

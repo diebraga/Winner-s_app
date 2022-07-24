@@ -2,12 +2,10 @@ import { Button } from '@chakra-ui/button'
 import { Flex, Heading } from '@chakra-ui/layout'
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import { Switch } from '@chakra-ui/switch'
-import { useColorMode } from '@chakra-ui/color-mode'
+import { useDarkMode } from '../utils/useDarkMode'
 
 export function Header() {
-  const { colorMode, toggleColorMode } = useColorMode()
-
-  const isDarkMode = colorMode === 'dark' ? true : false;
+  const { isDarkMode, toggleColorMode } = useDarkMode()
 
   return (
     <Flex
@@ -16,12 +14,13 @@ export function Header() {
       py='3'
       position={'absolute'}
       w='100%'
+      alignItems={'center'}
     >
       <Heading
-        color={isDarkMode ? 'gray.400' : "gray.500"}
         ml='3'
+        fontSize={['1.4rem', '1.8rem', '2rem']}
       >
-        Header
+        Winner's app
       </Heading>
       <Flex>
         <Button
