@@ -2,8 +2,15 @@ import { Button } from '@chakra-ui/button'
 import { AddIcon } from '@chakra-ui/icons'
 import { Input } from '@chakra-ui/input'
 import { Flex, Text } from '@chakra-ui/layout'
+import { ChangeEvent, FormEvent, FormEventHandler } from 'react'
 
-export function InsertForm() {
+interface InsertFormProps {
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void
+  name: string
+  onSubmit: (e: FormEvent<HTMLFormElement>) => void 
+}
+
+export function InsertForm({ onChange, name, onSubmit }: InsertFormProps) {
   return (
     <Flex
       as={'form'}
@@ -12,6 +19,8 @@ export function InsertForm() {
       mt='70px'
       w='100%'
       maxW={'780px'}
+      // @ts-ignore
+      onSubmit={onSubmit}
     >
       <Text
         as={'h1'}
@@ -29,10 +38,13 @@ export function InsertForm() {
           w={'100%'}
           size={['sm', 'md', 'lg']}
           variant='filled'
+          value={name}
+          onChange={onChange}
         />
         <Button
           size={['sm', 'md', 'lg']}
           ml='2'
+          type='submit'
         >
           <AddIcon />
         </Button>

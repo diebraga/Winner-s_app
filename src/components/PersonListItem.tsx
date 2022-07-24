@@ -2,7 +2,11 @@ import { Button } from "@chakra-ui/button";
 import { CloseButton } from "@chakra-ui/close-button";
 import { Box, Flex, Text } from "@chakra-ui/layout";
 
-export function PersonListItem() {
+interface PersonListItemProps {
+  name: string
+}
+
+export function PersonListItem({ name }: PersonListItemProps) {
   return (
     <Box
       w='100%'
@@ -20,7 +24,7 @@ export function PersonListItem() {
           w='100%'
           fontSize={['1rem', '1.2rem', '1.4rem']}
         >
-          Antonio Nunes
+          {name}
         </Text>
         <Button
           size={['sm', 'md', 'lg']}
